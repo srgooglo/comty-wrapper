@@ -1,15 +1,14 @@
 import packagejson from 'packageJson'
-import { verbosity } from '@ragestudio/nodecore-utils'
+import { verbosity } from '@nodecorejs/utils'
 import axios from 'axios'
 
 const getDataFromBuilds = (state, res) => {
-  console.log("getting for", res)
   let setState = {
     versions: [],
     releases: {},
     lastestId: res[0].id
   }
-  return new Promise(async(resolve) => {
+  return new Promise(async (resolve) => {
     try {
       const forLength = res.length
       for (let i = 0; i < forLength; i++) {
@@ -26,13 +25,13 @@ const getDataFromBuilds = (state, res) => {
           setState.releases[element.id] = newRelease
         }
 
-        if (i == (forLength - 1) ) {
+        if (i == (forLength - 1)) {
           resolve(setState)
         }
       }
 
     } catch (error) {
-      verbosity(error, { type: "debug" })
+      verbosity.log(error)
     }
   })
 }
@@ -51,13 +50,13 @@ export default {
     setup({ dispatch }) {
       dispatch({
         type: 'getAllReleases', callback: (res) => {
-          console.log("getAllReleases resolved with ", res)
+          verbosity.log("All Releases >", res)
           dispatch({
             type: 'updateState', payload: {
               ...res, selected: res.releases[res.lastestId]
             }
           })
-          dispatch({ type: 'query' });
+          dispatch({ type: 'query' })
         }
       })
     },
@@ -67,7 +66,7 @@ export default {
       const state = yield select(state => state.app)
 
       yield put({ type: "updateState", payload: { loading: false } })
-      verbosity([state])
+      verbosity.log(state)
     },
     *getAllReleases({ callback }, { call, put, select }) {
       const state = yield select(state => state.app)
@@ -84,7 +83,7 @@ export default {
 
       fetch(endpoint).then(response => response.json())
         .then(async (res) => {
-          callback(await getDataFromBuilds(state, [res] ))
+          callback(await getDataFromBuilds(state, [res]))
         })
     },
     *selectFromId({ id }, { call, put, select }) {
@@ -97,7 +96,7 @@ export default {
       return {
         ...state,
         ...payload,
-      };
+      }
     },
   },
-};
+}

@@ -1,7 +1,7 @@
 import * as antd from "antd";
 import * as Icons from 'feather-reactjs'
 import { connect } from 'umi'
-import { objectToArray } from '@ragestudio/nodecore-utils'
+import { objectToArrayMap } from '@nodecorejs/utils'
 
 const stageToColor = {
   undefined: "red",

@@ -5,7 +5,6 @@ export default () => {
     return(
         <div className="landing_header">
             <div className="header_brand">
-              <img src="https://dl.ragestudio.net/branding/comty/t4_fullTextDark.svg" />
             </div>
             <div className="header_links">
                 <div className="header_linksBtn"><Icons.Activity /> Status </div>
